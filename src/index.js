@@ -14,7 +14,7 @@ export default props => {
 
     return (
         <>
-            <span>{props.text || 'Coordinates X and Y:'} {position.x} : {position.y} </span>
+            <span className={props.classNames}>{props.text || 'Coordinates X and Y:'} {position.x} : {position.y} </span>
         </>
     )
 }
