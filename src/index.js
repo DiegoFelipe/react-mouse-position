@@ -1,20 +1,20 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 
 export default props => {
-    const [positionX, setPositionX] = useState()
-    const [positionY, setPositionY] = useState()
+    const [position, setPosition] = useState({x: 0, y: 0})
 
-    const updateCoordinates = (e) => {
-        setPositionX = e.screenX
-        setPositionY = e.screenY
-        console.log('entrou')
-    }
+    useEffect(() => {
+        const setFromEvent = e => setPosition({ x: e.clientX, y: e.clientY });
+        window.addEventListener("mousemove", setFromEvent)
+
+        return () => {
+            window.removeEventListener("mousemove", setFromEvent)
+        }
+    }, [])
 
     return (
         <>
-            <div onMouseMove={() => updateCoordinates()}>
-                <span>{props.text || 'Coordinates X and Y:'} {positionX} </span>
-            </div>
+            <span>{props.text || 'Coordinates X and Y:'} {position.x} : {position.y} </span>
         </>
     )
 }

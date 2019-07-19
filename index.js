@@ -17,30 +17,29 @@ function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = 
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only"); }
-
 var _default = function _default(props) {
-  var _useState = (0, _react.useState)(),
+  var _useState = (0, _react.useState)({
+    x: 0,
+    y: 0
+  }),
       _useState2 = _slicedToArray(_useState, 2),
-      positionX = _useState2[0],
-      setPositionX = _useState2[1];
+      position = _useState2[0],
+      setPosition = _useState2[1];
 
-  var _useState3 = (0, _react.useState)(),
-      _useState4 = _slicedToArray(_useState3, 2),
-      positionY = _useState4[0],
-      setPositionY = _useState4[1];
+  (0, _react.useEffect)(function () {
+    var setFromEvent = function setFromEvent(e) {
+      return setPosition({
+        x: e.clientX,
+        y: e.clientY
+      });
+    };
 
-  var updateCoordinates = function updateCoordinates(e) {
-    setPositionX = (_readOnlyError("setPositionX"), e.screenX);
-    setPositionY = (_readOnlyError("setPositionY"), e.screenY);
-    console.log('entrou');
-  };
-
-  return _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement("div", {
-    onMouseMove: function onMouseMove() {
-      return updateCoordinates();
-    }
-  }, _react["default"].createElement("span", null, props.text || 'Coordinates X and Y:', " ", positionX, " ")));
+    window.addEventListener("mousemove", setFromEvent);
+    return function () {
+      window.removeEventListener("mousemove", setFromEvent);
+    };
+  }, []);
+  return _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement("span", null, props.text || 'Coordinates X and Y:', " ", position.x, " : ", position.y, " "));
 };
 
 exports["default"] = _default;
